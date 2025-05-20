@@ -1,153 +1,11 @@
-// const express = require('express');
-// const cors = require('cors');
-// const dotenv = require('dotenv');
-// const { pool } = require('./models/db.js');
-// const app = express();
-// dotenv.config();
-
-// //______________________________________________________________
-
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
-
-// // ----------- Admin Routes -----------
-
-// // Add category
-// app.post('/admin/category', async (req, res) => {
-//   const { name, cover_image } = req.body;
-//   try {
-//     const result = await pool.query(
-//       'INSERT INTO categories (name, cover_image) VALUES ($1, $2) RETURNING *',
-//       [name, cover_image]
-//     );
-//     res.json(result.rows[0]);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to add category' });
-//   }
-// });
-
-// // Add item
-// app.post('/admin/item', async (req, res) => {
-//   const { name, description, price, image, category_id } = req.body;
-//   try {
-//     const result = await pool.query(
-//       'INSERT INTO items (name, description, price, image, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-//       [name, description, price, image, category_id]
-//     );
-//     res.json(result.rows[0]);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to add item' });
-//   }
-// });
-
-// //delete category
-// app.delete('/admin/category/:id', async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     await pool.query('DELETE FROM categories WHERE id = $1', [id]);
-//     res.json({ message: 'Category deleted' });
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to delete category' });
-//   }
-// });
-
-// // Delete item
-// app.delete('/admin/item/:id', async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     await pool.query('DELETE FROM items WHERE id = $1', [id]);
-//     res.json({ message: 'Item deleted' });
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to delete item' });
-//   }
-// });
-
-// // Update item description or price
-// app.put('/admin/item/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { description, price } = req.body;
-//   try {
-//     const result = await pool.query(
-//       'UPDATE items SET description = $1, price = $2 WHERE id = $3 RETURNING *',
-//       [description, price, id]
-//     );
-//     res.json(result.rows[0]);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to update item' });
-//   }
-// });
-
-// // ----------- Customer Routes -----------
-
-// // Get menu
-// app.get('/menu', async (req, res) => {
-//   try {
-//     const categories = await pool.query('SELECT * FROM categories');
-//     const items = await pool.query('SELECT * FROM items');
-//     res.json({ categories: categories.rows, items: items.rows });
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to fetch menu' });
-//   }
-// });
-
-// // Get branches
-// app.get('/branches', async (req, res) => {
-//   try {
-//     const result = await pool.query('SELECT * FROM branches');
-//     res.json(result.rows);
-//   } catch (err) {
-//     res.status(500).json({ error: 'Failed to get branches' });
-//   }
-// });
-
-// // Checkout — build WhatsApp message and redirect link
-// // Checkout — build WhatsApp message and redirect link
-// app.post('/checkout', async (req, res) => {
-//     const { name, address, cart, branch_id } = req.body;
-  
-//     // Hardcoded WhatsApp numbers for branches
-//     const branchNumbers = {
-//       1: '+905352596905', // Branch 1 number
-//       2: '+905358615683'  // Branch 2 number
-//     };
-  
-//     const number = branchNumbers[branch_id];
-//     if (!number) return res.status(404).json({ error: 'Branch not found' });
-//   const itemLines = cart.map(item => `• ${item.name} x${item.qty}`).join('\n');
-//   const message = `طلب من ${name}\nالعنوان: ${address}\n\nالمنتجات:\n${itemLines}`;
-//   const encodedMsg = encodeURIComponent(message);
-//   const whatsappUrl = `https://wa.me/${number}?text=${encodedMsg}`;
-    
-//     res.json({ whatsappUrl });
-//   });
-  
-
-// // ----------- Start Server -----------
-// const port = process.env.PORT;
-
-// app.use(cors());
-// app.use(express.json());
-
-// app.get('/', (req, res) => {
-//     res.send('Hello World!');
-// }
-// );
-
-
-// app.listen(port, () => {
-//     try {
-//         console.log('Server is running on port ' + port);
-//     }
-//     catch (error) {
-//         console.error('Error starting server:', error);
-//     }});
-
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const streamifier = require("streamifier");
+const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
 const { pool } = require('./models/db.js'); // keep your db pool
 dotenv.config();
 
@@ -155,8 +13,50 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//===================== ADMIN AUTH CONFIG =========================//
 
+
+//===================== Cloudinary CONFIG =========================//
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+//===================== UPLOAD IMAGE =========================//
+const upload = multer();
+app.post('/upload', upload.single('image'), async (req, res) => {
+  try {
+    const streamUpload = (req) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: "your_folder",
+            transformation: [
+              { width: 800, crop: "scale" },       // Resize to width 800px
+              { quality: "auto" },                 // Auto-compress quality
+              { fetch_format: "auto" }             // Convert to best format (e.g., WebP)
+            ],
+          },
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+    };
+    const result = await streamUpload(req);
+    res.json({ url: result.secure_url });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to upload image' });
+  }
+});
+
+//===================== ADMIN AUTH CONFIG =========================//
 const ADMIN = {
   username: process.env.ADMIN_USERNAME || 'admin',
   passwordHash: bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'password123', 10), // hash once
@@ -319,7 +219,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3003;
 app.listen(port, () => {
   console.log('Server is running on port ' + port);
 });
