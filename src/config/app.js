@@ -5,6 +5,7 @@ const Category = require('../models/Category');
 const Item = require('../models/Item');
 const clientRoutes = require('../routes/client-route');
 const adminRoutes = require('../routes/admin-route');
+const uploadRoutes =  require('../routes/upload-route');
 const errorHandler = require('../middleware/error-handler');
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.use('/upload', uploadRoutes);
 app.use('/', clientRoutes);
 app.use('/admin', adminRoutes);
 

@@ -3,12 +3,45 @@ const Category = require('../models/Category');
 const Item = require('../models/Item');
 const AppError = require('../middleware/AppError');
 const { verifyToken, login } = require('../config/auth');
+const cloudinary = require("../utils/cloudinary");
+const upload = require('../utils/imageUpload');
 
 // Login route
 router.post('/login', login);
 
 // Protected routes
 router.use(verifyToken);
+//===================== Cloudinary CONFIG =========================//
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+//===================== UPLOAD IMAGE =========================//
+router.post('/upload', upload.single('image'), async (req, res) => {
+  try {
+    const buffer = req.file.buffer.toString('base64');
+    const base64Image = `data:${req.file.mimetype};base64,${buffer}`;
+
+    const result = await cloudinary.uploader.upload(base64Image, {
+      folder: 'uploads',
+      transformation: [
+        { width: 800, height: 800, crop: 'limit' }, // resize
+        { quality: "auto" },                        // auto quality
+        { fetch_format: "auto" }                    // auto format (webp, etc)
+      ]
+    });
+
+    res.json({ url: result.secure_url, public_id: result.public_id });
+  }catch (error) {
+    res.status('ERROR UPLOADING IMAGE TO CLOUDINARY');
+    next(error);
+  }
+});
+
+module.exports = router;
+
 
 // Get all categories
 router.get('/categories', async (req, res, next) => {
@@ -33,7 +66,7 @@ router.get('/items', async (req, res, next) => {
 // Create new category
 router.post('/category', async (req, res, next) => {
   try {
-    const { name, cover_image } = req.body;
+    const { name } = req.body;
     if (!name) {
       throw AppError.badRequest('Category name is required');
     }
@@ -94,5 +127,6 @@ router.put('/item/:id', async (req, res, next) => {
     next(err);
   }
 });
+
 
 module.exports = router;
