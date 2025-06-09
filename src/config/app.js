@@ -5,19 +5,27 @@ const Category = require('../models/Category');
 const Item = require('../models/Item');
 const clientRoutes = require('../routes/client-route');
 const adminRoutes = require('../routes/admin-route');
-const uploadRoutes =  require('../routes/upload-route');
+const uploadRoutes = require('../routes/upload-route');
 const errorHandler = require('../middleware/error-handler');
 dotenv.config();
 
 const app = express();
-app.use(cors());
-app.options('*', cors()); // Enable pre-flight for all routes
+
+// CORS configuration
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
+// Basic route
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('API is running');
 });
 
+// API routes
 app.use('/upload', uploadRoutes);
 app.use('/', clientRoutes);
 app.use('/admin', adminRoutes);
