@@ -20,9 +20,14 @@ app.use(cors({
 
 app.use(express.json());
 
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Basic route
 app.get('/', (req, res) => {
-  res.send('API is running');
+  res.json({ message: 'API is running' });
 });
 
 // API routes
@@ -30,7 +35,25 @@ app.use('/upload', uploadRoutes);
 app.use('/', clientRoutes);
 app.use('/admin', adminRoutes);
 
-// Error handling middleware (should be last)
-app.use(errorHandler);
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message || 'Internal Server Error',
+      status: err.status || 500
+    }
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: {
+      message: 'Not Found',
+      status: 404
+    }
+  });
+});
 
 module.exports = app;
