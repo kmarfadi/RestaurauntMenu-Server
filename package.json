@@ -9,9 +9,17 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "npm run typeorm -- migration:generate -d ormconfig.js",
+    "migration:run": "npm run typeorm -- migration:run -d ormconfig.js",
+    "migration:revert": "npm run typeorm -- migration:revert -d ormconfig.js",
+    "seed": "ts-node src/seeders/index.ts",
+    "build": "tsc",
+    "start:prod": "npm run build && node dist/index.js"
   },
   "dependencies": {
+    "@types/pg": "^8.15.5",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
@@ -21,7 +29,11 @@
     "multer": "^2.0.0",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.10",
-    "pg": "^8.15.6",
-    "streamifier": "^0.1.1"
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "streamifier": "^0.1.1",
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.26",
+    "typescript": "^5.9.2"
   }
 }

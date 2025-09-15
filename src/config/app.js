@@ -27,4 +27,6 @@ app.use('/api/admin', adminRoutes);
 // Error handling middleware (should be last)
 app.use(errorHandler);
 
+// Initialize database connection
+
 module.exports = app;
