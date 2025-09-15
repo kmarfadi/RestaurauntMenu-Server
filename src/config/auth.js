@@ -35,6 +35,11 @@ const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
+    // Validate input
+    if (!username || !password) {
+      throw AppError.badRequest('Username and password are required');
+    }
+
     if (username !== ADMIN.username) {
       throw AppError.unauthorized('Invalid username or password');
     }

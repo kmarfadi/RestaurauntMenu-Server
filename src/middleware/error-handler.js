@@ -31,13 +31,10 @@ const errorHandler = (err, req, res, next) => {
     message = 'Invalid reference';
   }
 
-  // Send error response
+  // Send clean error response
   res.status(status).json({
-    error: {
-      message,
-      status,
-      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-    }
+    message,
+    status
   });
 };
 
