@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'https://restaurauntmenu-client.onrender.com'
+  origin: process.env.CLIENT_URL,
 }));
 // Middleware setup
 app.use(express.json());
