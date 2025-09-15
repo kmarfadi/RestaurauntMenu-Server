@@ -8,36 +8,28 @@ export class CategorySeeder {
 
     const categories = [
       {
+        name: 'Classic Pizzas',
+        cover_image: 'https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=500',
+      },
+      {
+        name: 'Gourmet Pizzas',
+        cover_image: 'https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg?auto=compress&cs=tinysrgb&w=500',
+      },
+      {
         name: 'Appetizers',
-        cover_image: 'https://images.unsplash.com/photo-1551782450-17144efb9c50?w=500',
+        cover_image: 'https://images.pexels.com/photos/4109278/pexels-photo-4109278.jpeg?auto=compress&cs=tinysrgb&w=500',
       },
       {
-        name: 'Soups & Salads',
-        cover_image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=500',
-      },
-      {
-        name: 'Main Courses',
-        cover_image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500',
-      },
-      {
-        name: 'Pasta & Risotto',
-        cover_image: 'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=500',
-      },
-      {
-        name: 'Seafood',
-        cover_image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500',
+        name: 'Salads',
+        cover_image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=500',
       },
       {
         name: 'Desserts',
-        cover_image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500',
+        cover_image: 'https://images.pexels.com/photos/45202/brownie-dessert-cake-sweet-45202.jpeg?auto=compress&cs=tinysrgb&w=500',
       },
       {
         name: 'Beverages',
-        cover_image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500',
-      },
-      {
-        name: 'Coffee & Tea',
-        cover_image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500',
+        cover_image: 'https://images.pexels.com/photos/2253643/pexels-photo-2253643.jpeg?auto=compress&cs=tinysrgb&w=500',
       },
     ];
 
