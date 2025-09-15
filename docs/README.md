@@ -1,5 +1,7 @@
 # 📚 Marf Pizza API Documentation
 
+<img src="../apiDocsScreenShot.png" alt="Marf Pizza API Documentation Screenshot" width="800">
+
 This folder contains the comprehensive Swagger/OpenAPI documentation for the Marf Pizza Restaurant API.
 
 ## 📁 Structure
