@@ -1,0 +1,105 @@
+{
+  "Item": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique identifier for the item"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the menu item",
+        "example": "Margherita Pizza"
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the menu item",
+        "example": "Classic Italian pizza with fresh mozzarella, tomato sauce, and basil"
+      },
+      "price": {
+        "type": "number",
+        "format": "float",
+        "description": "Price of the item",
+        "example": 16.99
+      },
+      "image": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL of the item image",
+        "example": "https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg"
+      },
+      "category_id": {
+        "type": "integer",
+        "description": "ID of the category this item belongs to",
+        "example": 1
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when the item was created"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when the item was last updated"
+      }
+    },
+    "required": ["id", "name", "price", "category_id"]
+  },
+  "CreateItemRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the menu item",
+        "example": "Pepperoni Pizza"
+      },
+      "description": {
+        "type": "string",
+        "description": "Description of the menu item",
+        "example": "Delicious pizza topped with pepperoni and mozzarella cheese"
+      },
+      "price": {
+        "type": "number",
+        "format": "float",
+        "description": "Price of the item",
+        "example": 18.99
+      },
+      "image": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL of the item image",
+        "example": "https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg"
+      },
+      "category_id": {
+        "type": "integer",
+        "description": "ID of the category this item belongs to",
+        "example": 1
+      }
+    },
+    "required": ["name", "price", "category_id"]
+  },
+  "UpdateItemRequest": {
+    "type": "object",
+    "properties": {
+      "description": {
+        "type": "string",
+        "description": "Updated description of the menu item",
+        "example": "Updated description with more details"
+      },
+      "price": {
+        "type": "number",
+        "format": "float",
+        "description": "Updated price of the item",
+        "example": 19.99
+      }
+    },
+    "minProperties": 1
+  },
+  "ItemListResponse": {
+    "type": "array",
+    "items": {
+      "$ref": "#/components/schemas/Item"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "Error": {
+    "type": "object",
+    "properties": {
+      "error": {
+        "type": "string",
+        "description": "Error message",
+        "example": "Bad Request"
+      },
+      "message": {
+        "type": "string",
+        "description": "Detailed error message",
+        "example": "Category name is required"
+      },
+      "statusCode": {
+        "type": "integer",
+        "description": "HTTP status code",
+        "example": 400
+      }
+    }
+  },
+  "BadRequestError": {
+    "type": "object",
+    "properties": {
+      "error": {
+        "type": "string",
+        "description": "Error message",
+        "example": "Bad Request"
+      },
+      "message": {
+        "type": "string",
+        "description": "Detailed error message",
+        "example": "Category name is required"
+      },
+      "statusCode": {
+        "type": "integer",
+        "description": "HTTP status code",
+        "example": 400
+      }
+    }
+  },
+  "NotFoundError": {
+    "type": "object",
+    "properties": {
+      "error": {
+        "type": "string",
+        "description": "Error message",
+        "example": "Not Found"
+      },
+      "message": {
+        "type": "string",
+        "description": "Detailed error message",
+        "example": "Category not found"
+      },
+      "statusCode": {
+        "type": "integer",
+        "description": "HTTP status code",
+        "example": 404
+      }
+    }
+  },
+  "InternalServerError": {
+    "type": "object",
+    "properties": {
+      "error": {
+        "type": "string",
+        "description": "Error message",
+        "example": "Internal Server Error"
+      },
+      "message": {
+        "type": "string",
+        "description": "Detailed error message",
+        "example": "Something went wrong"
+      },
+      "statusCode": {
+        "type": "integer",
+        "description": "HTTP status code",
+        "example": 500
+      }
+    }
+  }
+}

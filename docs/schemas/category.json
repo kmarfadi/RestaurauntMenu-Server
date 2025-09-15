@@ -1,0 +1,56 @@
+{
+  "Category": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique identifier for the category"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the category",
+        "example": "Classic Pizzas"
+      },
+      "cover_image": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL of the category cover image",
+        "example": "https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when the category was created"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when the category was last updated"
+      }
+    },
+    "required": ["id", "name"]
+  },
+  "CreateCategoryRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Name of the category",
+        "example": "Gourmet Pizzas"
+      },
+      "cover_image": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL of the category cover image",
+        "example": "https://images.pexels.com/photos/1653877/pexels-photo-1653877.jpeg"
+      }
+    },
+    "required": ["name"]
+  },
+  "CategoryListResponse": {
+    "type": "array",
+    "items": {
+      "$ref": "#/components/schemas/Category"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "UploadResponse": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "format": "uri",
+        "description": "Cloudinary URL of the uploaded image",
+        "example": "https://res.cloudinary.com/demo/image/upload/v1234567890/uploads/example.jpg"
+      },
+      "public_id": {
+        "type": "string",
+        "description": "Cloudinary public ID of the uploaded image",
+        "example": "uploads/example"
+      }
+    },
+    "required": ["url", "public_id"]
+  },
+  "UploadError": {
+    "type": "object",
+    "properties": {
+      "error": {
+        "type": "string",
+        "description": "Error message",
+        "example": "ERROR UPLOADING IMAGE TO CLOUDINARY"
+      }
+    }
+  }
+}

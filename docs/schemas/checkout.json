@@ -1,0 +1,87 @@
+{
+  "CheckoutRequest": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "Customer's full name",
+        "example": "محمد أحمد"
+      },
+      "address": {
+        "type": "string",
+        "description": "Delivery address",
+        "example": "شارع هايل، صنعاء"
+      },
+      "cart": {
+        "type": "array",
+        "description": "Array of cart items",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Item name",
+              "example": "Margherita Pizza"
+            },
+            "qty": {
+              "type": "integer",
+              "description": "Quantity of the item",
+              "example": 2
+            }
+          },
+          "required": ["name", "qty"]
+        }
+      },
+      "branch_id": {
+        "type": "integer",
+        "description": "Selected branch ID",
+        "example": 1,
+        "enum": [1, 2]
+      }
+    },
+    "required": ["name", "address", "cart", "branch_id"]
+  },
+  "CheckoutResponse": {
+    "type": "object",
+    "properties": {
+      "whatsappUrl": {
+        "type": "string",
+        "format": "uri",
+        "description": "WhatsApp URL with order details",
+        "example": "https://wa.me/967777858820?text=طلب%20من%20محمد%20أحمد..."
+      }
+    },
+    "required": ["whatsappUrl"]
+  },
+  "Branch": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Branch ID"
+      },
+      "name": {
+        "type": "string",
+        "description": "Branch name",
+        "example": "فرع شارع هايل"
+      },
+      "address": {
+        "type": "string",
+        "description": "Branch address",
+        "example": "شارع هايل، صنعاء"
+      },
+      "phone": {
+        "type": "string",
+        "description": "Branch phone number",
+        "example": "+967777858820"
+      }
+    },
+    "required": ["id", "name", "address", "phone"]
+  },
+  "BranchListResponse": {
+    "type": "array",
+    "items": {
+      "$ref": "#/components/schemas/Branch"
+    }
+  }
+}

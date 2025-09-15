@@ -1,0 +1,22 @@
+{
+  "MenuResponse": {
+    "type": "object",
+    "properties": {
+      "categories": {
+        "type": "array",
+        "description": "Array of menu categories",
+        "items": {
+          "$ref": "#/components/schemas/Category"
+        }
+      },
+      "items": {
+        "type": "array",
+        "description": "Array of menu items",
+        "items": {
+          "$ref": "#/components/schemas/Item"
+        }
+      }
+    },
+    "required": ["categories", "items"]
+  }
+}
