@@ -7,7 +7,7 @@ const ADMIN = {
   passwordHash: bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'password123', 10),
 };
 
-const JWT_SECRET = process.env.JWT_SECRET || 'mysecretkey';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
